@@ -12,6 +12,32 @@ object PracticeMain {
     // So all the practice code will execute
     val prac = new Practice
 
+    // NOTE: Need to add the '_' to indicate that it's a partially applied function
+    // NOTE: in order to tabe advantage of the partial application /currying you have to store the intermediate
+    // function away and use THAT to continue the operation. The old commented code below is an incorrect
+    // implementation of this, as it's creating two separate partial functions on each call.
+    // println(prac.curriedFunction(2)_)// should print 2, maybe, or perhaps it's a function
+    // println(prac.curriedFunction(2))// this time it should have all the curred values necessary to print the product: 4
+
+    // CORRECT - store the intermediate partial function
+    var pf = prac.curriedFunction(2)_
+    println(pf)// prints that pf is a function
+    println(pf(2))// this time it should have all the curred values necessary to print the product: 4
+
+    // print the cube of 3; 27
+    // NOTE: again need to add the '_' to indicate partial application, although in this case since there are 3 parameters
+    // and 2 that haven't been supplied, we need to use '_' twice
+    // println(prac.cCube(3)(_)(_))// pass the first param, should print a function type (maybe)
+    // println(prac.cCube(3)(3)_)// pass the second and last param, should now print 27
+
+    //The code above is incorrect, as we have to store away the partially applied function
+    var pcf = prac.cCube(3) _
+    println(pcf) // prints function, as expected
+    // NOTE: you don't need an additional '_' after the call to the partial function because it seems that Scala already
+    // knows that this is a partial implementation of the function cCube
+    var pcf2 = pcf(3) // another partial function with just the last missing param.
+    println(pcf2) // prints function, as expected
+    println(pcf2(3)) // Should print 27
   }
 }
 
@@ -60,6 +86,15 @@ class Person(var name: String, val age: Int) { parent =>
 }
 
 class Practice {
+  // return a curried multiplier, i.e., a function that multiplies n (2) values, which can be supplied at different
+  // times
+  def curriedFunction(x:Int)(y:Int):Int = x*y
+  // curried cube generator
+  def cCube(x: Int)(y: Int)(z: Int): Int = (x*y*z)
+
+  // an attempt at a curried accumulator
+  // def cAccumulator(a: Int = 0)(b: Int*) : Int = a + b
+
   // procedure to let us know what's going on
   // procedure does not have a return type
   def logInt(n: Int) {
@@ -102,7 +137,7 @@ class Practice {
   // create a new person object with the location set to oxnard
   val q = new Person("jim", 1234, "oxnard")
   // another person for later tests
-  val r = new Person("heiu", 1089)
+  val r = new Person("hieu", 1089)
 
   println(q.description)
   println(p.description)
