@@ -38,6 +38,17 @@ object PracticeMain {
     var pcf2 = pcf(3) // another partial function with just the last missing param.
     println(pcf2) // prints function, as expected
     println(pcf2(3)) // Should print 27
+
+    // partial product
+    var pp4 = prac.cMult5(5) _
+    var pp3 = pp4(4)
+    var pp2 = pp3(3)
+    var pp1 = pp2(2)
+    println("partial product after storing and calling partial funcionts:" + pp1(1))
+    // We can't use a loop to re-assign a partial function to a container as the partial functions won't have the same
+    // function signatures.
+    // for(i <- (2 to 4).reverse) pp4 = pp4(i)
+    // println("final product after looping through a range to supply values to the partially applied funcitons: " + pp(1))
   }
 }
 
@@ -90,7 +101,11 @@ class Practice {
   // times
   def curriedFunction(x:Int)(y:Int):Int = x*y
   // curried cube generator
+  // NOTE: not really a cube generator since z/x/y can be different values.
   def cCube(x: Int)(y: Int)(z: Int): Int = (x*y*z)
+
+  // curried function that multiplies 5 ints
+  def cMult5(a: Int)(b: Int)(c: Int)(d: Int)(e: Int) : Int = a*b*c*d*e
 
   // an attempt at a curried accumulator
   // def cAccumulator(a: Int = 0)(b: Int*) : Int = a + b
