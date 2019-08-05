@@ -5,9 +5,13 @@ import scala.collection.mutable.HashMap
 // won't be compiled to a static java function, as is expected of a main entry point.
 object PracticeMain {
   def main(args: Array[String]): Unit = {
+
+    val runTestJson = new RunTestJson
+  }
+  def mainPractice: Unit = {
     println("Hello, world!")
 
-    // Create a practice object that contains all the code I wrote in the online editor.
+  // Create a practice object that contains all the code I wrote in the online editor.
     // Recall that when an object is created in Scala ALL STATEMENTS INSIDE THE OBJECT ARE EXECUTED!!!
     // So all the practice code will execute
     val prac = new Practice
