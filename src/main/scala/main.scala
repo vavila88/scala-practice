@@ -6,7 +6,8 @@ import scala.collection.mutable.HashMap
 object PracticeMain {
   def main(args: Array[String]): Unit = {
 
-    val runTestJson = new RunTestJson
+    // val runTestJson = new RunTestJson
+    val runComplexTest = new ComplexJsonParsing
   }
   def mainPractice: Unit = {
     println("Hello, world!")

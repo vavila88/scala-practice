@@ -10,7 +10,7 @@ import play.api.libs.json.JsonNaming.SnakeCase
 class RunTestJson {
 
   // case class for the inner objects to be parsed from a JSON string
-  case class TestJson(name: String, age: Int)
+  case class TestJson(name: String, age: Int, stat: Option[Double], dec: BigDecimal)
 
   // since the JSON we're testing with is a list of JSON objects, this case class will represent that as a list of
   // the expected case class (yo dawg, I heard you like case classes...)
@@ -31,8 +31,13 @@ class RunTestJson {
 
   // make a reasonably complex JSON string (list of JSON objects)
   // NOTE: The names absolutely MUST MATCH otherwise all hell will break loose (RTE)
+  // NOTE: an Option type will be parsed as None if the JSON string being parsed does not define the field.
+  //        In the string below, the first object will be parsed as TestJson(fubar, 123, None)
   val body =
-    """{"return": [{ "name" : "fubar", "age" : 123 }, { "name":"barfu", "age": 456 }]}"""
+  """{"ret": [{ "name" : "fubar", "age" : 123, "dec" : 1.23456789 }, { "name" : "barfu", "age" : 456 , "stat"
+    |: 2.718281828 , "dec" : 1.23456789 } ]
+    |}""".stripMargin
+  // val body = """{ "name" : "fubar", "age" : 123 }"""
 
   // Scala can tell that this is a JSON formatted string, so it'll create a generic JSON object tree out of said string
   val jsonBody = Json.parse(body)
@@ -40,6 +45,7 @@ class RunTestJson {
   // Here's where the magic happens. Scala will map the derived object structure to the specified case class in the
   // as[T] statement. This will result in some ezpz JSON string to Scala object conversion
   val obj = jsonBody.as[JsonResp]
+  // val obj = jsonBody.as[TestJson]
 
   // Print the object to verify our work...
   println(obj)
